@@ -1,29 +1,23 @@
-/* global app, log */
-(function(window) {
-  'use strict'
+import 'todomvc-app-css/index.css'
+import './app.css'
 
-  /**
-   * Sets up a brand new Todo list.
-   *
-   * @param {string} name The name of your new to do list.
-   */
-  function Todo(name) {
-    this.storage = new app.Store(name)
-    this.model = new app.Model(this.storage)
-    this.template = new app.Template()
-    this.view = new app.View(this.template)
-    this.controller = new app.Controller(this.model, this.view)
-  }
+import {$on} from './helpers'
+import {updateTodo} from './todo'
+import toggleGraph from './graph'
 
-  function onLoad() {
-    var todo = new Todo('todos-vanillajs')
-    todo.controller.setView(document.location.hash)
-    log('view set')
-    console.log("app js running.");
-  }
-
-
-  // Export to window
-  window.app = window.app || {}
-  window.app.onLoad = onLoad
-})(window)
+export function onLoad() { // eslint-disable-line import/prefer-default-export
+  updateTodo()
+  const toggleGraphButton = document.querySelector('.toggle-graph')
+  $on(
+    toggleGraphButton,
+    'click',
+    () => {
+      const active = toggleGraph()
+      if (active) {
+        toggleGraphButton.classList.add('active')
+      } else {
+        toggleGraphButton.classList.remove('active')
+      }
+    },
+  )
+}
