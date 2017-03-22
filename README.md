@@ -1,6 +1,6 @@
 ## Installation Notes
 
-'''node install'''
+node install
 (node version 6)
 
 npm install
